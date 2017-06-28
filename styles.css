@@ -1,0 +1,75 @@
+
+html {
+    
+}
+
+body {
+    margin: 0 auto;
+    width: 70%;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    height: 50px;
+    width: 90%;
+
+    display: block;
+    border: 2px solid grey;
+    text-align:right;
+    padding: 5px;
+    font-size: 2em;
+    
+}
+
+
+#calculator {
+    height: 450px;
+    width: 350px;
+    border: 4px solid black;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-top: 80px;
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    -webkit-justify-content: center; /* Safari */
+    justify-content:         center;
+    -webkit-flex-direction: row; /* Safari */
+    flex-direction:         row;
+    -webkit-flex-wrap: wrap; /* Safari */
+    flex-wrap:         wrap;
+    
+    
+    margin: 10px;
+}
+
+#buttons {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 10px;
+    align-items: flex-start;
+    align-content: center;
+}
+
+#equals {
+    align-self: flex-end;
+/*    height: 100px;*/
+    
+}
+
+#zero {
+    flex-basis: 50%;
+    align-self: flex-start;
+}
+
+button {
+    width: 25%;
+    height: 50px;
+
+}
+
+
+
