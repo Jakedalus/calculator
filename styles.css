@@ -31,44 +31,35 @@ input {
     border: 4px solid black;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    
     margin: 0 auto;
-    margin-top: 80px;
-    display: -webkit-flex; /* Safari */
-    display: flex;
-    -webkit-justify-content: center; /* Safari */
-    justify-content:         center;
-    -webkit-flex-direction: row; /* Safari */
-    flex-direction:         row;
-    -webkit-flex-wrap: wrap; /* Safari */
-    flex-wrap:         wrap;
-    
-    
-    margin: 10px;
+    margin-top: 70px;
+
 }
 
 #buttons {
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 6px;
     margin: 10px;
-    align-items: flex-start;
-    align-content: center;
 }
 
 #equals {
-    align-self: flex-end;
-/*    height: 100px;*/
-    
+    grid-row: 4/6;
+    grid-column: 4/5;
+    height: 100%;
 }
 
 #zero {
-    flex-basis: 50%;
-    align-self: flex-start;
+    grid-row: 5/6;
+    grid-column: 1/3;
 }
 
 button {
-    width: 25%;
     height: 50px;
-
 }
 
 
