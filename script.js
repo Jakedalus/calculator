@@ -1,4 +1,5 @@
 
+
 var buttonCode = {
     "ac": "ac",
     "ce": "ce",
@@ -53,121 +54,79 @@ var operatorBtns = document.querySelectorAll(".operator");
 var numberBtns = document.querySelectorAll(".number");
 var dotBtn = document.getElementById("dot");
 
-function enableOpBtns() {
-    operatorBtns.forEach(function(op) {
-        op.disabled = false;
-    });
-}
-
-function disableOpBtns() {
-    operatorBtns.forEach(function(op) {
-        op.disabled = true;  
-    });
-}
-
 function animateBtn(btn) {
-//    console.log(btn);
-
     var button = document.getElementById(buttonRevCode[btn]);
-    if(button) {
-        console.log(button);
-        button.classList.add("clicked");
-        var timeoutID = window.setTimeout(function() {
-            button.classList.remove("clicked");
+    if(button != null) {
+        console.log("Pushed: ", button);
+        button.classList.add("pushed");
+        window.setTimeout(function() {
+            button.classList.remove("pushed");
         }, 100);
     }
     
-    
-    
 }
 
-function keyPressed(key) {
-    var buttonPressed = key;
+
+var noDot = false;
+var noOp = true;
+
+function keyPressed(buttonPressed) {
+    console.log(buttonPressed);
     animateBtn(buttonPressed);
     
     var opSyms = ["/", "-", "+", "*"];
-    var keys = ['0','1','2','3','4','5','6','7','8','9','*','/','+','-'];
+    var numKeys = ['0','1','2','3','4','5','6','7','8','9'];
     
-    if(buttonPressed == "ac") {
-        screen.value = "";
-        equation = "";
-        dotBtn.disabled = false;
-        disableOpBtns();
-    } else if(buttonPressed == "ce") {
-        var deleted = equation[equation.length-1];
-        equation = equation.slice(0, equation.length-1);
-        screen.value = equation;
-        if(deleted === ".") dotBtn.disabled = false;
-        if(opSyms.indexOf(deleted) > -1) enableOpBtns();
-        if(equation === "") disableOpBtns();
-    } else if(buttonPressed == "equals") {
-        var answer = eval(equation);
-        answer = +answer.toFixed(8);
-        equation = answer.toString();
-        screen.value = equation;
-        enableOpBtns();
-        dotBtn.disabled = true;
-    } else if(keys.indexOf(buttonPressed) > -1) {
-        equation += buttonPressed;
-        screen.value = equation;
-        if(opSyms.indexOf(buttonPressed) == -1) enableOpBtns();
-    }
+    
+    var isDot = buttonPressed === ".";
+    
+    
+    var isOp = opSyms.indexOf(buttonPressed) > -1;
+    
+//    if(!(noOp && isOp) && !(noDot && isDot)) {
+        if(buttonPressed == "ac") {
+            screen.value = "";
+            equation = "";
+            noDot = false;
+            noOp = true;
+        } else if(buttonPressed == "ce") {
+            var deleted = equation[equation.length-1];
+            equation = equation.slice(0, equation.length-1);
+            screen.value = equation;
+            if(deleted === ".") noDot = false;
+            if(opSyms.indexOf(deleted) > -1) noOp = false;
+            if(equation === "") noOp = true;
+        } else if(buttonPressed == "equals" && !noOp) {
+            var answer = eval(equation);
+            answer = +answer.toFixed(8);
+            equation = answer.toString();
+            screen.value = equation;
+            noOp = false;
+            noDot = true;
+        } else if (buttonPressed === "." && !noDot) {
+            equation += buttonPressed;
+            screen.value = equation;
+            noDot = true;
+        } else if (opSyms.indexOf(buttonPressed) > -1 && !noOp) {
+            equation += buttonPressed;
+            screen.value = equation;
+            noOp = true;
+            noDot = false;
+        } else if(numKeys.indexOf(buttonPressed) > -1) {
+            equation += buttonPressed;
+            screen.value = equation;
+            noOp = false;
+        }
+//    } 
+    
 }
 
-disableOpBtns();
+
 
 buttons.addEventListener("click", function(e) {
-    console.log(e.target);
-    
     keyPressed(buttonCode[e.target.id]);
-    
-//    var buttonPressed = buttonCode[e.target.id];
-//    console.log(buttonPressed);
-//    
-//    var opSyms = ["/", "-", "+", "*"];
-//    
-//    if(buttonPressed == "ac") {
-//        screen.value = "";
-//        equation = "";
-//        dotBtn.disabled = false;
-//        disableOpBtns();
-//    } else if(buttonPressed == "ce") {
-//        var deleted = equation[equation.length-1];
-//        equation = equation.slice(0, equation.length-1);
-//        screen.value = equation;
-//        if(deleted === ".") dotBtn.disabled = false;
-//        if(opSyms.indexOf(deleted) > -1) enableOpBtns();
-//        if(equation === "") disableOpBtns();
-//    } else if(buttonPressed == "equals") {
-//        var answer = eval(equation);
-//        answer = +answer.toFixed(8);
-//        equation = answer.toString();
-//        screen.value = equation;
-//        enableOpBtns();
-//        dotBtn.disabled = true;
-//    } else if(buttonPressed != undefined) {
-//        equation += buttonPressed;
-//        screen.value = equation;
-//    }
-    
 });
 
-operatorBtns.forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-        disableOpBtns();
-        dotBtn.disabled = false;
-    });
-});
-
-numberBtns.forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-        enableOpBtns();
-    });
-});
-
-dotBtn.addEventListener("click", function(e) {
-    dotBtn.disabled = true;
-});
 
 document.addEventListener("keydown", function(e) {
     var key = e.key;
